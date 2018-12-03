@@ -1,0 +1,15 @@
+*강의 따라 가는 중 나온 오류 사항
+ERROR in multi ./app/index.js dist/bundle.js
+Module not found: Error: Can't resolve 'dist/bundle.js' in 'C:\Users\Youn\Deskto
+p\etc\webpack'
+ @ multi ./app/index.js dist/bundle.js
+
+ webpack 버전이 4.0 이상으로 올라가면서 기존에 사용하던 아래의 문구를 사용하는 것이 아닌 변경된 것으로 사용해야 한다.
+
+-> webpack app/index.js dist/bundle.js
+
+-> webpack app/index.js --output dist/bundle.js --mode development
+
+** install --save 와 --save-dev의 차이
+-> --save는 앱이 구동하기 위해 필요한 모듈 & 라이브러리
+-> --save-dev는 앱 개발시에 필요한 모듈 & 라이브러리 설치(예: test, build tool, live reloading 등)
