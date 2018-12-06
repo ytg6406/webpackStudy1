@@ -6,10 +6,44 @@ p\etc\webpack'
 
  webpack 버전이 4.0 이상으로 올라가면서 기존에 사용하던 아래의 문구를 사용하는 것이 아닌 변경된 것으로 사용해야 한다.
 
--> webpack app/index.js dist/bundle.js
+        -> webpack app/index.js dist/bundle.js
 
--> webpack app/index.js --output dist/bundle.js --mode development
+        -> webpack app/index.js --output dist/bundle.js --mode development
 
 ** install --save 와 --save-dev의 차이
--> --save는 앱이 구동하기 위해 필요한 모듈 & 라이브러리
--> --save-dev는 앱 개발시에 필요한 모듈 & 라이브러리 설치(예: test, build tool, live reloading 등)
+        -> --save는 앱이 구동하기 위해 필요한 모듈 & 라이브러리
+        -> --save-dev는 앱 개발시에 필요한 모듈 & 라이브러리 설치(예: test, build tool, live reloading 등)
+
+* webpack entry
+        -> 묶을 라이브러리에 대한 시작점
+        -> a,b,c라는 라이브러리를 모두 번들링한 bundle.js를 로딩한다.
+        -> 1개 또는 2개 이상의 엔트리 포인트를 설정할 수 있다.
+
+* 엔트리 유형
+        -> 간단한 entry 설정
+           entry : "path/*.js"
+        -> 앱 로직용 , 외부 라이브러리 용
+           entry : {
+                        app: "./app.js",
+                        vendor : "./vendor.js"
+                }
+        -> 페이지당 불러오는 js 설정
+           entry : {
+                        pageOne : "./src/pageOne/index.js",
+                        pageTwo : "./src/pageTwo/index.js",
+                        pageThree : "./src/pageThree/index.js",
+                }
+
+* Multiple Entry points
+        -> 앞에 복수개 엔트리 포인트에 대한 설정 예시
+        module.exports = {
+                 entry : {
+                              app: "./app.js",
+                              vendor : "./vendor.js"
+                  },
+                  output: {
+                    filename: '[name].js', // 위에 지정한 엔트리 키의 이름에 맞춰서 결과 산출
+                    path: 'build'
+                  }
+        }
+        -> 번들파일은 app.js를 임포트 하면 된다.
