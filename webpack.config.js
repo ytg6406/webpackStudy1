@@ -1,10 +1,15 @@
 var path = require('path');
 
 module.exports = {
- // entry 는 번들링 할 대상 파일
-  entry: './app/index.js',
+  entry: './app/cssTest.js',
   output: {
-    filename: 'bundle.js',
+    filename: 'cssTest.js',
     path: path.resolve(__dirname, 'dist')
+  },
+  module: {
+    rules: [{
+      test: /\.css$/,
+      use: ['style-loader', 'css-loader']
+    }]
   }
 }
