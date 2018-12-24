@@ -109,3 +109,9 @@ p\etc\webpack'
                         }]
                 }]
         }
+
+* Tapable.plugin is deprecated. Use new API on `.hooks` instead 오류 대처 방법
+        - 인터넷 검색으로는 extract-text-webpack-plugin 을 설치하면 해당 현상이 안난다는 글 들이 많았다.
+        - 해당 방법으로 설정을 했지만, 같은 오류 발생으로 추가적인 검색을 한 결과 4.0.0 의 alpha 버전으로 하면 가능하다는 글이 있어 시도했다.
+                - "extract-text-webpack-plugin": "^4.0.0-beta.0" 에서 "extract-text-webpack-plugin": "^4.0.0-alpha.0" 로 변경
+        - alpha 버전으로 변경 후 webpack을 돌렸더니 정상적인 built가 완료 되었다.
