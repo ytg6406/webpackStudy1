@@ -1,0 +1,4 @@
+{
+  ". / dist / vendor.js": "vendor.js",
+  ". / dist / main.js": "main.js"
+}

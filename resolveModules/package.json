@@ -1,0 +1,19 @@
+{
+  "name": "resolveModules",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "webpack": "^4.29.0",
+    "webpack-manifest-plugin": "^2.0.4"
+  },
+  "devDependencies": {
+    "jquery": "^3.3.1"
+  }
+}
