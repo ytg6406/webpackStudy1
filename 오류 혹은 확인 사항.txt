@@ -322,4 +322,7 @@ webpack 버전이 4.0 이상으로 올라가면서 기존에 사용하던 아래
                   devtool : '#inline-source-map'
           }
         - devtool office doc 가면 자세한 내용들이 있기 때문에 사용시 선택하여 사용이 가능하다.
+
+*Gulp 연동
+        - gulp와 webpack 모두 node.js 기반이기 때문에 통합하여 사용하기 쉽다.
          
