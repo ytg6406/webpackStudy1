@@ -4,7 +4,7 @@ Module not found: Error: Can't resolve 'dist/bundle.js' in 'C:\Users\Youn\Deskto
 p\etc\webpack'
  @ multi ./app/index.js dist/bundle.js
 
- webpack 버전이 4.0 이상으로 올라가면서 기존에 사용하던 아래의 문구를 사용하는 것이 아닌 변경된 것으로 사용해야 한다.
+webpack 버전이 4.0 이상으로 올라가면서 기존에 사용하던 아래의 문구를 사용하는 것이 아닌 변경된 것으로 사용해야 한다.
 
         -> webpack app/index.js dist/bundle.js
 
@@ -101,7 +101,7 @@ p\etc\webpack'
                         test:/\.js$./,
                         use :[{
                                 loader : 'babel-loader',
-                                options:{
+                                 options:{
                                         presets : [
                                                 ['es2015', 'react', {modules:false}] // Tree Shaking : 모듈에서 사용되지 않는 것은 제외한다.
                                         ]
@@ -150,7 +150,7 @@ p\etc\webpack'
                          basePath : "./dist"
                  })
 
- * 오류사항
+* 오류사항
         - 아래와 같은 코드 사용시 webpack 오류가 생겨 확인해보니 CommonsChunkPlugin의 경우 webpack4로 오면서 사라졌다고 한다.
                 plugins: [
                         new webpack.optimize.CommonsChunkPlugin({
@@ -177,111 +177,149 @@ p\etc\webpack'
                         })
                 ]
 
-        * Webpack Resolve
-                - Webpack의 모듈 번들링 관점에서 봤을 때, 모듈 간의 의존성을 고려하여 로딩해야 한다.
-                - 따라서 모듈을 어떤 위치에서 어떻게 로딩할지에 대해 정의를 하는 것이 Module Resolution이다.
-                        // 일반적
-                        import foo from 'path/to/module'
-                        // 혹은
-                        require('path/to/module')
+* Webpack Resolve
+        - Webpack의 모듈 번들링 관점에서 봤을 때, 모듈 간의 의존성을 고려하여 로딩해야 한다.
+        - 따라서 모듈을 어떤 위치에서 어떻게 로딩할지에 대해 정의를 하는 것이 Module Resolution이다.
+                // 일반적
+                import foo from 'path/to/module'
+                // 혹은
+                require('path/to/module')
 
-                - 1. 절대 경로를 이용한 파일 로딩
-                        - 파일의 경로를 모두 입력해준다.
-                                import '/home/me/file';
-                                import 'c:\\Users\\me\\file';
+        - 1. 절대 경로를 이용한 파일 로딩
+                - 파일의 경로를 모두 입력해준다.
+                        import '/home/me/file';
+                        import 'c:\\Users\\me\\file';
 
-                - 2. 상대 경로를 이용한 파일 로딩
-                        - 해당 모듈이 로딩되는 시점의 위치에 기반하여 절대 경로로 인식하여 로딩한다.
-                                import '../src/file1';
-                                import './file2';
+        - 2. 상대 경로를 이용한 파일 로딩
+                - 해당 모듈이 로딩되는 시점의 위치에 기반하여 절대 경로로 인식하여 로딩한다.
+                        import '../src/file1';
+                        import './file2';
 
-        *Resolve Option
-                - config 파일에 resolve를 추가하여 모듈 로딩에 관련된 옵션 사용
-                - alias : 특정 모듈을 로딩할 때 alias  옵션을 이용하면 별칭으로 로딩이 가능
-                        - alias : {
-                                Utilities : path.resolve(__dirname, 'src/path/utilities')
-                        }
-                        - import Utility from '../../src/path/utilities/utility';
-                        - import Utility from 'Utilities/utility'; // alias 사용시 더 간편하게 사용 가능
-                - modules : require() import '' 과 같은 모듈 로딩시에 어느 폴더를 기준으로 할 것인지 정하는 옵션
-                        - modules : ['node_modules'] // default
+*Resolve Option
+        - config 파일에 resolve를 추가하여 모듈 로딩에 관련된 옵션 사용
+        - alias : 특정 모듈을 로딩할 때 alias  옵션을 이용하면 별칭으로 로딩이 가능
+                - alias : {
+                        Utilities : path.resolve(__dirname, 'src/path/utilities')
+                }
+                - import Utility from '../../src/path/utilities/utility';
+                - import Utility from 'Utilities/utility'; // alias 사용시 더 간편하게 사용 가능
+        - modules : require() import '' 과 같은 모듈 로딩시에 어느 폴더를 기준으로 할 것인지 정하는 옵션
+                - modules : ['node_modules'] // default
 
-                        - modules : [path.resolve(__dirname, 'src'), 'node_modules'] // src/node_modules
-
-
-        *webpack 빌드를 위한 개발 서버 구성
-                - webpack-dev-server : webpack 자체에서 제공하는 개발 서버이고 빠른 리로딩 기능 제공
-                - webpack-dev-middleware : 서버가 이미 구성된 경우에는 webpack을 미들웨어로 구성하여 서버와 연
-
-        *webpack dev server
-                - 페이지 자동고침을 제공하는 webpack 개발용 node.js 서버
-                - 설치 및 실행
-                        - 설치
-                                - npm install --save-dev webpack-dev-server
-                        - 실행
-                                - webpack-dev-server --open
-                        - 또는 package.json에 아래와 같이 명령어를 등록하여 간편하게 실행 가능
-                                - "scripts" : {"start":"webpack-dev-server"}
-
-        *webpack dev server options
-                - publicPath : webpack으로 번들한 파일들이 위치하는 . default 값은 /
-                        - // 항상 '/'를 앞뒤에 붙여주어야 한다.
-                          publicPath : "/assets/"
-                -contentsBase : 서버가 로딩할 static 파일 경로를 지정. default 값은 working directory
-                        - // 절대 경로를 사용 할 것
-                          contentsBase : path.join(__dirname, "public")
-                        - // 비활성화시
-                          contentsBase : false
-                -compress : gzip 압축방식을 이용하여 웹 자원의 사이즈를 줄인다.
-                        - compress : true
-
-        *webpack dev server scripts 사용시 오류 사항
-                - 아래와 같이 package json 에 선언을 한 후 terminal에서 start 를 하니 동작이 정상적으로 되지 않았다.
-                        "scripts": {
-                                "test": "echo \"Error: no test specified\" && exit 1",
-                                "start" : "webpack-dev-server"
-                        },
-                - 검색 결과 npm start 라고 터미널에 입력을 해주어야 할 뿐 아니라 scripts에 선언을 할 때 start라고 선언을 해주어야 한다.
-                  다른 이름으로는 동작을 하지 않는 것 같다.
-                - dev server에 외부 접근을 하려면 아래와 같이 설정을 해야 한다.
-                        "scripts": {
-                        "start": "webpack-dev-server --hot --host 0.0.0.0"
-                        },
-                        만약에 localhost 가 아닌 외부 서버에서 dev-server 실행 시, –host 옵션을 추가하지 않으면 접근이 안된다고 한다.
-        
-        *webpack dev server에서 npm start를 하고 난 후 dist 폴더 및 bundle.js가 생성되어 있지 않다.
-                - 터미널에는 webpack output is served from /dist/ 라고 기록이 되어 있다.
-                - 내부적으로 해당 파일을 볼 수 있는 방법은 없다. 개발이 완료된 후 webpack으로 새로 묶어주어서 js파일을 만들어 주어야 한다.
-                - compile in memory 라고 하며, 해당 부분은 https://webpack.js.org/guides/build-performance/#compile-in-memory 에서 확인이 가능하다.
-        
-        *compile in memory
-                - 서버 실행 시 소스 파일들을 번들링하여 메모리에 저장한다.
-                - 소스 파일을 감시하고 있다가 소스 파일이 변경되면 변경된 모듈만 새로 번들링을 한다.
-                - 변경된 모듈 정보를 브라우저에 전송하면, 브라우저는 변경을 인지하고 새로고침되어 변경사항이 반영된 페이지를 로드
-
-        *path 와 public path의 차이점
-                - output:path => 번들링한 결과가 위치할 파일의 절대 경로
-                - output:publicPath => 브라우저가 참고할 번들링 결과 파일의 URL 주소를 지정(CDN을 사용하는 경우 CDN 호스트 지정한다.)
-                - 예제 2가지
-                        //예제 1
-                        output :{
-                                path : "/home/public",
-                                publicPath : "/assets/"
-                        }
-                        //예제 2
-                        output :{
-                                path : "/home/cdn/[hash]",
-                                publicPath : "http://cdn.example.com/assets/[hsash]/"
-                        }
-
-        *publicPath 사용시
-                - 개발소스
-                        .image{
-                                background-image: url("./test.png");
-                        }
-                - 번들링 한 이후 cdn 형태
-                        .image{
-                                background-image: url("https://cdnUrl/test.png");
-                        }
+                - modules : [path.resolve(__dirname, 'src'), 'node_modules'] // src/node_modules
 
 
+*webpack 빌드를 위한 개발 서버 구성
+        - webpack-dev-server : webpack 자체에서 제공하는 개발 서버이고 빠른 리로딩 기능 제공
+        - webpack-dev-middleware : 서버가 이미 구성된 경우에는 webpack을 미들웨어로 구성하여 서버와 연
+
+*webpack dev server
+        - 페이지 자동고침을 제공하는 webpack 개발용 node.js 서버
+        - 설치 및 실행
+                - 설치
+                        - npm install --save-dev webpack-dev-server
+                - 실행
+                        - webpack-dev-server --open
+                - 또는 package.json에 아래와 같이 명령어를 등록하여 간편하게 실행 가능
+                        - "scripts" : {"start":"webpack-dev-server"}
+
+*webpack dev server options
+        - publicPath : webpack으로 번들한 파일들이 위치하는 . default 값은 /
+                - // 항상 '/'를 앞뒤에 붙여주어야 한다.
+                        publicPath : "/assets/"
+        -contentsBase : 서버가 로딩할 static 파일 경로를 지정. default 값은 working directory
+                - // 절대 경로를 사용 할 것
+                        contentsBase : path.join(__dirname, "public")
+                - // 비활성화시
+                        contentsBase : false
+        -compress : gzip 압축방식을 이용하여 웹 자원의 사이즈를 줄인다.
+                - compress : true
+
+*webpack dev server scripts 사용시 오류 사항
+        - 아래와 같이 package json 에 선언을 한 후 terminal에서 start 를 하니 동작이 정상적으로 되지 않았다.
+                "scripts": {
+                        "test": "echo \"Error: no test specified\" && exit 1",
+                        "start" : "webpack-dev-server"
+                },
+        - 검색 결과 npm start 라고 터미널에 입력을 해주어야 할 뿐 아니라 scripts에 선언을 할 때 start라고 선언을 해주어야 한다.
+                다른 이름으로는 동작을 하지 않는 것 같다.
+        - dev server에 외부 접근을 하려면 아래와 같이 설정을 해야 한다.
+                "scripts": {
+                "start": "webpack-dev-server --hot --host 0.0.0.0"
+                },
+                만약에 localhost 가 아닌 외부 서버에서 dev-server 실행 시, –host 옵션을 추가하지 않으면 접근이 안된다고 한다.
+
+*webpack dev server에서 npm start를 하고 난 후 dist 폴더 및 bundle.js가 생성되어 있지 않다.
+        - 터미널에는 webpack output is served from /dist/ 라고 기록이 되어 있다.
+        - 내부적으로 해당 파일을 볼 수 있는 방법은 없다. 개발이 완료된 후 webpack으로 새로 묶어주어서 js파일을 만들어 주어야 한다.
+        - compile in memory 라고 하며, 해당 부분은 https://webpack.js.org/guides/build-performance/#compile-in-memory 에서 확인이 가능하다.
+
+*compile in memory
+        - 서버 실행 시 소스 파일들을 번들링하여 메모리에 저장한다.
+        - 소스 파일을 감시하고 있다가 소스 파일이 변경되면 변경된 모듈만 새로 번들링을 한다.
+        - 변경된 모듈 정보를 브라우저에 전송하면, 브라우저는 변경을 인지하고 새로고침되어 변경사항이 반영된 페이지를 로드
+
+*path 와 public path의 차이점
+        - output:path => 번들링한 결과가 위치할 파일의 절대 경로
+        - output:publicPath => 브라우저가 참고할 번들링 결과 파일의 URL 주소를 지정(CDN을 사용하는 경우 CDN 호스트 지정한다.)
+        - 예제 2가지
+                //예제 1
+                output :{
+                        path : "/home/public",
+                        publicPath : "/assets/"
+                }
+                //예제 2
+                output :{
+                        path : "/home/cdn/[hash]",
+                        publicPath : "http://cdn.example.com/assets/[hsash]/"
+                }
+
+*publicPath 사용시
+        - 개발소스
+                .image{
+                        background-image: url("./test.png");
+                }
+        - 번들링 한 이후 cdn 형태
+                .image{
+                        background-image: url("https://cdnUrl/test.png");
+                }
+
+
+*webpack dev middleware
+        - 기존에 구성한 서버에 webpack에서 컴파일한 파일을 전달하는 middleware wrapper
+        - webpack에 설정한 파일을 변경시, 파일에 직접 변경 내역을 저장하지 않고 메모리 공간을 활용
+
+*설치하는 방법은 아래와 같다.
+        - npm install --save-dev express webpack-dev-middleware
+        - 설치 후 webpack & webpack dev middle ware등을 로딩
+                var express = require("express");
+                var webpack = require("webpack");
+                var webpackMiddleWare = require("webpack-dev-middleware");
+                var webpackConfig = require("./webpack.config");
+        - server.js 를 만든 후 실행하는 방법은 node server.js
+
+*webpack 명령어
+        - webpack : 웹팩 빌드 기본 명령어(주로 개발용)
+        - webpack -p : minification 기능이 들어간 빌드(주로 배포시)
+        - webapck -watch(-w) : 빌드할 파일의 변화를 감지
+        - webapck -d : sourcemap 포함하여 빌드
+        - webpack --display-error-details : error 발생시 디버깅 정보를 상세히 출력
+        - webpack --optimize-minimize -define process.env.NODE_ENV="'production'" : 배포용 
+
+*webpack watch 옵션
+        - webpack  설정에 해당되는 파일의 변경이 일어나면 자동으로 번들링을 다시 진행
+          webpack --progress --watch
+        - 혹은 npm install --save -dev serve 후 아래처럼 package.json에 명령어 설정 가능
+          "scripts":{
+                  start : "serve"
+          }
+
+*개발자 도구 연동
+        - 브라우저에서 webpack으로 컴파일된 파일을 디버깅하기란 어려움
+        - 아래와 같이 source-map설정을 추가하여 원래의 파일구조에서 디버깅이 가능
+          module.exports = {
+                  ...
+                  devtool : '#inline-source-map'
+          }
+        - devtool office doc 가면 자세한 내용들이 있기 때문에 사용시 선택하여 사용이 가능하다.
+         

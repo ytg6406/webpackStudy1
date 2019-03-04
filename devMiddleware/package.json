@@ -1,0 +1,20 @@
+{
+  "name": "devMiddleware",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^2.6.1",
+    "webpack": "^4.29.3"
+  },
+  "devDependencies": {
+    "express": "^4.16.4",
+    "webpack-dev-middleware": "^3.5.2"
+  }
+}
